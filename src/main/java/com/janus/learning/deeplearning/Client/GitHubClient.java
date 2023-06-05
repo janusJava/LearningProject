@@ -17,28 +17,27 @@ public class GitHubClient {
 
     private static final String GITHUB_API_URL = "https://api.github.com";
 
-    private List<RepositoryResponseDto> getRepoNames(String userName) {
+    private List<String> getRepoNames(String userName) {
         RestTemplate restTemplate = new RestTemplate();
         String apiUrl = "https://api.github.com/users/" + userName + "/repos";
         ResponseEntity<String> response = restTemplate.getForEntity(apiUrl, String.class);
         String myJSONString = response.getBody();
         JsonArray jsonArray = new Gson().fromJson(myJSONString, JsonArray.class);
-        List<RepositoryResponseDto> repositories = new ArrayList<>();
+        List<String> repositories = new ArrayList<>();
         jsonArray.forEach(repo -> {
-            String repoName = repo.getAsJsonObject().get("name").getAsString();
-            RepositoryResponseDto repository = RepositoryResponseDto.builder()
-                    .name(repoName)
-                    .build();
-            repositories.add(repository);
+            if (repo.getAsJsonObject().get("fork").getAsString().equals("false")) {
+                String repoName = repo.getAsJsonObject().get("name").getAsString();
+                repositories.add(repoName);
+            }
         });
         return repositories;
     }
 
-    private List<RepositoryResponseDto> getReposWithBranchesNamesAndSha(List<RepositoryResponseDto> repositories, String userName) {
+    private List<RepositoryResponseDto> getReposWithBranchesNamesAndSha(List<String> repositories, String userName) {
         List<RepositoryResponseDto> repositoryResult = new ArrayList<>();
         repositories.forEach(repo -> {
             RestTemplate restTemplate = new RestTemplate();
-            String apiUrl = "https://api.github.com/repos/" + userName + "/" + repo.getName() + "/branches";
+            String apiUrl = "https://api.github.com/repos/" + userName + "/" + repo + "/branches";
             ResponseEntity<String> response = restTemplate.getForEntity(apiUrl, String.class);
             String myJSONString = response.getBody();
             JsonArray jsonArray = new Gson().fromJson(myJSONString, JsonArray.class);
@@ -51,15 +50,18 @@ public class GitHubClient {
                         .lastCommitSha(commitSha)
                         .build();
                 branches.add(branchObj);
-                repo.setBranches(branches);
+                RepositoryResponseDto repositoryResponseDto = RepositoryResponseDto.builder()
+                        .name(repo)
+                        .branches(branches)
+                        .build();
+                repositoryResult.add(repositoryResponseDto);
             });
-            repositoryResult.add(repo);
         });
         return repositoryResult;
     }
 
     public UserDataResponseDto getUserRepoData(String userName) {
-        List<RepositoryResponseDto> repositoriesNames = getRepoNames(userName);
+        List<String> repositoriesNames = getRepoNames(userName);
         List<RepositoryResponseDto> repositories = getReposWithBranchesNamesAndSha(repositoriesNames, userName);
         return UserDataResponseDto.builder()
                 .userName(userName)
