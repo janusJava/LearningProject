@@ -10,5 +10,7 @@ import java.util.List;
 public class UserDataResponseDto {
 
     private String userName;
+
     private List<RepositoryResponseDto> repositories;
+    
 }

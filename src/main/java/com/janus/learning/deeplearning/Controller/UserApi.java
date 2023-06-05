@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @CrossOrigin(origins = "http://localhost:8080", allowCredentials = "true")
 public interface UserApi {
 
-
     @GetMapping("/{username}/repositories")
     @ResponseStatus(HttpStatus.OK)
     UserDataResponseDto getUserRepoData(@PathVariable("username") String username);
+    
 }

@@ -19,7 +19,7 @@ public class GitHubClient {
 
     private List<String> getRepoNames(String userName) {
         RestTemplate restTemplate = new RestTemplate();
-        String apiUrl = "https://api.github.com/users/" + userName + "/repos";
+        String apiUrl = GITHUB_API_URL + "/users/" + userName + "/repos";
         ResponseEntity<String> response = restTemplate.getForEntity(apiUrl, String.class);
         String myJSONString = response.getBody();
         JsonArray jsonArray = new Gson().fromJson(myJSONString, JsonArray.class);
@@ -37,7 +37,7 @@ public class GitHubClient {
         List<RepositoryResponseDto> repositoryResult = new ArrayList<>();
         repositories.forEach(repo -> {
             RestTemplate restTemplate = new RestTemplate();
-            String apiUrl = "https://api.github.com/repos/" + userName + "/" + repo + "/branches";
+            String apiUrl = GITHUB_API_URL + "/repos/" + userName + "/" + repo + "/branches";
             ResponseEntity<String> response = restTemplate.getForEntity(apiUrl, String.class);
             String myJSONString = response.getBody();
             JsonArray jsonArray = new Gson().fromJson(myJSONString, JsonArray.class);
@@ -68,7 +68,6 @@ public class GitHubClient {
                 .repositories(repositories)
                 .build();
     }
-
-
+    
 }
 
