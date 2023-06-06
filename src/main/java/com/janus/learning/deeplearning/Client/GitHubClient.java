@@ -7,7 +7,6 @@ import com.janus.learning.deeplearning.Dto.RepositoryResponseDto;
 import com.janus.learning.deeplearning.Dto.UserDataResponseDto;
 import com.janus.learning.deeplearning.Exception.NotAcceptableException;
 import com.janus.learning.deeplearning.Exception.NotFoundException;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -18,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-@Slf4j
 public class GitHubClient {
 
     private static final String GITHUB_API_URL = "https://api.github.com";
