@@ -23,6 +23,7 @@ public class UserController implements UserApi {
     public UserDataResponseDto getUserRepoData(@PathVariable String username, @RequestHeader(HttpHeaders.ACCEPT) String accept) {
         log.info("UserController: Getting user repositories {user:{}}", username);
         if (accept == null || !accept.equals("application/json")) {
+            //throw new NotAcceptableStatusException("Nieobsługiwalny format danych - 2");
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Nieobsługiwalny format danych.");
         }
         UserDataResponseDto result = gitHubClient.getUserRepoData(username);
