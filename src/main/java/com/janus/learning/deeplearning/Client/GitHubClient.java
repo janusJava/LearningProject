@@ -5,7 +5,6 @@ import com.google.gson.JsonArray;
 import com.janus.learning.deeplearning.Dto.BranchResponseDto;
 import com.janus.learning.deeplearning.Dto.RepositoryResponseDto;
 import com.janus.learning.deeplearning.Dto.UserDataResponseDto;
-import com.janus.learning.deeplearning.Exception.NotAcceptableException;
 import com.janus.learning.deeplearning.Exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,8 +39,6 @@ public class GitHubClient {
         } catch (HttpClientErrorException ex) {
             if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
                 throw new NotFoundException("Nie znaleziono zasobów.");
-            } else if (ex.getStatusCode() == HttpStatus.NOT_ACCEPTABLE) {
-                throw new NotAcceptableException("Nie jestem w stanie dostarczyć odpowiedzi w tym formacie.");
             } else {
                 ex.printStackTrace();
             }
@@ -78,8 +75,6 @@ public class GitHubClient {
             } catch (HttpClientErrorException ex) {
                 if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
                     throw new NotFoundException("Nie znaleziono zasobów.");
-                } else if (ex.getStatusCode() == HttpStatus.NOT_ACCEPTABLE) {
-                    throw new NotAcceptableException("Nie jestem w stanie dostarczyć odpowiedzi w tym formacie.");
                 } else {
                     ex.printStackTrace();
                 }
