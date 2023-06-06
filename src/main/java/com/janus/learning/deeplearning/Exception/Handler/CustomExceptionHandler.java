@@ -1,6 +1,8 @@
-package com.janus.learning.deeplearning.Exception;
+package com.janus.learning.deeplearning.Exception.Handler;
 
 import com.janus.learning.deeplearning.Dto.ErrorResponseDto;
+import com.janus.learning.deeplearning.Exception.NotAcceptableException;
+import com.janus.learning.deeplearning.Exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
