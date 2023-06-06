@@ -79,9 +79,9 @@ public class GitHubClient {
                 }
             } catch (HttpClientErrorException ex) {
                 if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
-                    log.debug("NOT FOUND");
+                    throw new NotFoundException("Nie znaleziono zasobów.");
                 } else if (ex.getStatusCode() == HttpStatus.NOT_ACCEPTABLE) {
-                    log.debug("NOT ACCEPTABLE");
+                    throw new NotAcceptableException("Nie jestem w stanie dostarczyć odpowiedzi w tym formacie.");
                 } else {
                     ex.printStackTrace();
                 }
